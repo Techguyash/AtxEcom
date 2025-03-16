@@ -1,7 +1,9 @@
 package com.atx.atxecom.controller;
 
+import com.atx.atxecom.apiResponse.APIResponse;
 import com.atx.atxecom.dto.ProductDTO;
 
+import com.atx.atxecom.dto.RefilProductDTO;
 import com.atx.atxecom.services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/products")
 @AllArgsConstructor
 public class ProductController {
 
@@ -18,36 +20,50 @@ public class ProductController {
 
     //Create a new product
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<APIResponse> createProduct(@RequestBody ProductDTO productDTO) {
         ProductDTO createdProduct = productService.createProduct(productDTO);
-        return ResponseEntity.ok(createdProduct);
+        APIResponse apiResponse = new APIResponse(createdProduct);
+        return ResponseEntity.ok(apiResponse);
     }
 
     // Get product by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+    public ResponseEntity<APIResponse> getProductById(@PathVariable Long id) {
         ProductDTO productDTO = productService.getProductById(id);
-        return ResponseEntity.ok(productDTO);
+        APIResponse apiResponse = new APIResponse(productDTO);
+        return ResponseEntity.ok(apiResponse);
     }
 
     // Get all products
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+    public ResponseEntity<APIResponse> getAllProducts() {
         List<ProductDTO> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+        APIResponse apiResponse = new APIResponse(products);
+        return ResponseEntity.ok(apiResponse);
     }
 
     // Update product
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<APIResponse> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         ProductDTO updatedProduct = productService.updateProduct(id, productDTO);
-        return ResponseEntity.ok(updatedProduct);
+        APIResponse apiResponse = new APIResponse(updatedProduct);
+        return ResponseEntity.ok(apiResponse);
     }
 
     // Delete product
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<APIResponse> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok("Product deleted successfully");
+        APIResponse apiResponse = new APIResponse("Product deleted successfully");
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping
+    public ResponseEntity<APIResponse> refillStock(@RequestBody RefilProductDTO refilProductDTO)
+    {
+        ProductDTO productDTO =
+                productService.refillStock(refilProductDTO.getProductId(), refilProductDTO.getQuantity());
+        APIResponse apiResponse = new APIResponse(productDTO);
+        return ResponseEntity.ok(apiResponse);
     }
 }

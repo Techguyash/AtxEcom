@@ -20,7 +20,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @Schema(description = "Unique identifier of the product", example = "1")
     private Long productId;
 
@@ -64,6 +63,9 @@ public class Product {
 
     @Schema(description = "Timestamp of the last stock refill", example = "2024-02-20T08:30:00")
     private LocalDateTime stockLastRefilled;
+
+    @Schema(description = "Total stock refilled until today", example = "150")
+    private double totalStockOverLifeTime;
 
 
 }

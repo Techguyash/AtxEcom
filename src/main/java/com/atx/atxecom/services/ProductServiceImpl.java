@@ -75,10 +75,13 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
-    public ProductDTO refillStock(long productId, long quantity)
+    public ProductDTO refillStock(long productId, double quantity)
     {
         Product product = productRepository.findById(productId).get();
         double updatedStock = product.getCurrentStock() + quantity;
+        double totalRefilled = product.getTotalStockOverLifeTime() + quantity;
+
+        product.setTotalStockOverLifeTime(totalRefilled);
         product.setCurrentStock(updatedStock);
         product.setStockLastRefilled(LocalDateTime.now());
         Product savedProduct = productRepository.save(product);
