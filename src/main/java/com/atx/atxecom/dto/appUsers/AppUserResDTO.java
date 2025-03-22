@@ -9,13 +9,12 @@ import java.io.Serializable;
  * DTO for {@link AppUser}
  */
 @Data
-public class CreateUserResponseDTO implements Serializable
+public class AppUserResDTO implements Serializable
 {
     long userId;
     String firstName;
     String lastName;
     String email;
-    String passwordHash;
     String phoneNo;
     String otp;
     boolean isActive;

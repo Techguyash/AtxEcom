@@ -2,10 +2,9 @@ package com.atx.atxecom.controller;
 
 import com.atx.atxecom.apiResponse.APIResponse;
 import com.atx.atxecom.dto.appUsers.AppOtpDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserRequestDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserResponseDTO;
-import com.atx.atxecom.entity.AppUser;
-import com.atx.atxecom.entity.AppUserDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserReqDTO;
+import com.atx.atxecom.dto.appUsers.AppUserResDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserResDTO;
 import com.atx.atxecom.services.AppOtpService;
 import com.atx.atxecom.services.AppUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,16 +29,16 @@ public class AppUserController
 
     @PostMapping
     @RequestMapping("/register")
-    public ResponseEntity<APIResponse> registerUser(@RequestBody CreateUserRequestDTO appUser)
+    public ResponseEntity<APIResponse> registerUser(@RequestBody CreateUserReqDTO appUser)
     {
-        CreateUserResponseDTO responseData = appUserService.createAppUser(appUser);
+        CreateUserResDTO responseData = appUserService.createAppUser(appUser);
         APIResponse apiResponse = new APIResponse(responseData);
         return  ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse> getUsers(@PathVariable long id){
-        AppUserDTO userById = appUserService.getUserById(id);
+        AppUserResDTO userById = appUserService.getUserById(id);
         APIResponse apiResponse = new APIResponse(userById);
         return ResponseEntity.ok(apiResponse);
     }
@@ -47,7 +46,7 @@ public class AppUserController
     @GetMapping
     public ResponseEntity<APIResponse> getAllUsers()
     {
-        List<AppUserDTO> allUsers = appUserService.getAllUsers();
+        List<AppUserResDTO> allUsers = appUserService.getAllUsers();
         APIResponse apiResponse = new APIResponse(allUsers);
         return ResponseEntity.ok(apiResponse);
     }

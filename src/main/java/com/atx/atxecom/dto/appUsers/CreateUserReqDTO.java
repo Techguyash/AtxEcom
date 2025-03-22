@@ -8,7 +8,7 @@ import lombok.Data;
  * @project AtxEcom
  **/
 @Data
-public class CreateUserRequestDTO
+public class CreateUserReqDTO
 {
     String firstName;
     String lastName;

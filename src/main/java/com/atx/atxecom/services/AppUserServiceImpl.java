@@ -2,10 +2,10 @@ package com.atx.atxecom.services;
 
 
 import com.atx.atxecom.dto.appUsers.AppOtpDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserRequestDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserResponseDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserReqDTO;
+import com.atx.atxecom.dto.appUsers.AppUserResDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserResDTO;
 import com.atx.atxecom.entity.AppUser;
-import com.atx.atxecom.entity.AppUserDTO;
 import com.atx.atxecom.repository.AppUserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,7 +32,7 @@ public class AppUserServiceImpl implements AppUserService
 
 
     @Override
-    public CreateUserResponseDTO createAppUser(CreateUserRequestDTO userReqDto)
+    public CreateUserResDTO createAppUser(CreateUserReqDTO userReqDto)
     {
         BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
         AppUser availableUser = appUserRepo.findByEmail(userReqDto.getEmail());
@@ -47,7 +47,7 @@ public class AppUserServiceImpl implements AppUserService
         mappedUser.setCreatedDate(LocalDateTime.now());
         AppUser savedUser = appUserRepo.save(mappedUser);
         AppOtpDTO generatedOtp = appOtpService.generateOtp(savedUser.getUserId(), "new user email");
-        CreateUserResponseDTO responseEntity = modelMapper.map(savedUser, CreateUserResponseDTO.class);
+        CreateUserResDTO responseEntity = modelMapper.map(savedUser, CreateUserResDTO.class);
         responseEntity.setOtp(generatedOtp.getOtpCode());
         return responseEntity;
     }
@@ -55,7 +55,7 @@ public class AppUserServiceImpl implements AppUserService
 
 
     @Override
-    public AppUserDTO updateUser(AppUser appUser)
+    public AppUserResDTO updateUser(AppUser appUser)
     {
         AppUser availableUser = appUserRepo.findByEmail(appUser.getEmail());
         if(availableUser != null)
@@ -64,28 +64,28 @@ public class AppUserServiceImpl implements AppUserService
         }
         modelMapper.map(availableUser,appUser);
         AppUser savedUser = appUserRepo.save(availableUser);
-        return  modelMapper.map(savedUser, AppUserDTO.class);
+        return  modelMapper.map(savedUser, AppUserResDTO.class);
     }
 
     @Override
-    public AppUserDTO getUserById(Long id)
+    public AppUserResDTO getUserById(Long id)
     {
         AppUser savedUser = appUserRepo.findByUserId(id);
-        return modelMapper.map(savedUser, AppUserDTO.class);
+        return modelMapper.map(savedUser, AppUserResDTO.class);
     }
 
     @Override
-    public AppUserDTO getUserByEmail(String email)
+    public AppUserResDTO getUserByEmail(String email)
     {
         AppUser byEmail = appUserRepo.findByEmail(email);
-        return modelMapper.map(byEmail, AppUserDTO.class);
+        return modelMapper.map(byEmail, AppUserResDTO.class);
     }
 
     @Override
-    public List<AppUserDTO> getAllUsers()
+    public List<AppUserResDTO> getAllUsers()
     {
         List<AppUser> allUsers = appUserRepo.findAll();
-        List<AppUserDTO> mappedUserDto = allUsers.stream().map(appUser -> modelMapper.map(appUser, AppUserDTO.class)).collect(
+        List<AppUserResDTO> mappedUserDto = allUsers.stream().map(appUser -> modelMapper.map(appUser, AppUserResDTO.class)).collect(
                 Collectors.toList());
         return mappedUserDto;
     }
