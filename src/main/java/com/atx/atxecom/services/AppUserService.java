@@ -1,6 +1,7 @@
 package com.atx.atxecom.services;
 
-import com.atx.atxecom.dto.appUsers.CreateAppUserDto;
+import com.atx.atxecom.dto.appUsers.CreateUserRequestDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserResponseDTO;
 import com.atx.atxecom.entity.AppUser;
 import com.atx.atxecom.entity.AppUserDTO;
 
@@ -13,7 +14,7 @@ import java.util.List;
  **/
 public interface AppUserService
 {
-    CreateAppUserDto createAppUser(AppUser appUser);
+    CreateUserResponseDTO createAppUser(CreateUserRequestDTO appUser);
 
     AppUserDTO updateUser(AppUser appUser);
 

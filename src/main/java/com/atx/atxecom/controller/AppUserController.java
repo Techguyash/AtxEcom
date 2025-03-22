@@ -2,7 +2,8 @@ package com.atx.atxecom.controller;
 
 import com.atx.atxecom.apiResponse.APIResponse;
 import com.atx.atxecom.dto.appUsers.AppOtpDTO;
-import com.atx.atxecom.dto.appUsers.CreateAppUserDto;
+import com.atx.atxecom.dto.appUsers.CreateUserRequestDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserResponseDTO;
 import com.atx.atxecom.entity.AppUser;
 import com.atx.atxecom.entity.AppUserDTO;
 import com.atx.atxecom.services.AppOtpService;
@@ -28,9 +29,10 @@ public class AppUserController
     private final AppOtpService appOtpService;
 
     @PostMapping
-    public ResponseEntity<APIResponse> addUser(@RequestBody AppUser appUser)
+    @RequestMapping("/register")
+    public ResponseEntity<APIResponse> registerUser(@RequestBody CreateUserRequestDTO appUser)
     {
-        CreateAppUserDto responseData = appUserService.createAppUser(appUser);
+        CreateUserResponseDTO responseData = appUserService.createAppUser(appUser);
         APIResponse apiResponse = new APIResponse(responseData);
         return  ResponseEntity.ok(apiResponse);
     }
@@ -54,7 +56,7 @@ public class AppUserController
             summary = "Verify OTP for User",
             description = "Verifies the OTP entered by the user and returns the validation status."
     )
-    @PostMapping("/{userId}/{inputOtp}")
+    @PostMapping("/verify/{userId}/{inputOtp}")
     public ResponseEntity<APIResponse> verifyUser(@PathVariable long userId,@PathVariable String inputOtp)
     {
         String response = appOtpService.verifyOtp(userId, inputOtp);
@@ -66,7 +68,7 @@ public class AppUserController
             summary = "Generate OTP for User",
             description = "Generate the OTP entered by the user and returns the new OTP"
     )
-    @PostMapping("/{userId}")
+    @PostMapping("generateOTP/{userId}")
     public ResponseEntity<APIResponse> generateNewOtp(@PathVariable long userId)
     {
         AppOtpDTO generatedOtp = appOtpService.generateOtp(userId, "new user");

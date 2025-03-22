@@ -9,7 +9,7 @@ import java.io.Serializable;
  * DTO for {@link AppUser}
  */
 @Data
-public class CreateAppUserDto implements Serializable
+public class CreateUserResponseDTO implements Serializable
 {
     long userId;
     String firstName;

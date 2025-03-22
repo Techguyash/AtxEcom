@@ -1,12 +1,15 @@
 package com.atx.atxecom.services;
 
-import com.atx.atxecom.dto.appUsers.CreateAppUserDto;
+
 import com.atx.atxecom.dto.appUsers.AppOtpDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserRequestDTO;
+import com.atx.atxecom.dto.appUsers.CreateUserResponseDTO;
 import com.atx.atxecom.entity.AppUser;
 import com.atx.atxecom.entity.AppUserDTO;
 import com.atx.atxecom.repository.AppUserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,19 +29,25 @@ public class AppUserServiceImpl implements AppUserService
     private final ModelMapper modelMapper;
     private final AppOtpService appOtpService;
 
+
+
     @Override
-    public CreateAppUserDto createAppUser(AppUser appUser)
+    public CreateUserResponseDTO createAppUser(CreateUserRequestDTO userReqDto)
     {
-        AppUser availableUser = appUserRepo.findByEmail(appUser.getEmail());
+        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
+        AppUser availableUser = appUserRepo.findByEmail(userReqDto.getEmail());
         if(availableUser != null)
         {
             throw new RuntimeException("User already exists");
         }
-        AppUser mappedUser = modelMapper.map(appUser, AppUser.class);
+        //encoding the password
+        String encodedPassword = passwordEncoder.encode(userReqDto.getPassword());
+        AppUser mappedUser = modelMapper.map(userReqDto, AppUser.class);
+        mappedUser.setPasswordHash(encodedPassword);
         mappedUser.setCreatedDate(LocalDateTime.now());
         AppUser savedUser = appUserRepo.save(mappedUser);
         AppOtpDTO generatedOtp = appOtpService.generateOtp(savedUser.getUserId(), "new user email");
-        CreateAppUserDto responseEntity = modelMapper.map(savedUser, CreateAppUserDto.class);
+        CreateUserResponseDTO responseEntity = modelMapper.map(savedUser, CreateUserResponseDTO.class);
         responseEntity.setOtp(generatedOtp.getOtpCode());
         return responseEntity;
     }

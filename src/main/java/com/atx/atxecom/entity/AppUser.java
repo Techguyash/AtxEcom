@@ -1,5 +1,6 @@
 package com.atx.atxecom.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,7 +25,7 @@ public class AppUser
     private String email;
     private String passwordHash;
     private String phoneNo;
-    @OneToMany(mappedBy = "appuser", orphanRemoval = true)
+    @OneToMany(mappedBy = "appuser", orphanRemoval = true,fetch = FetchType.EAGER)
     private Set<Address> addresses = new LinkedHashSet<>();
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
