@@ -32,6 +32,8 @@ public class ProductServiceImpl implements ProductService
         Product product = modelMapper.map(productDTO, Product.class);
         product.setCreatedAt(LocalDateTime.now());
         product.setCategory(category);
+        product.setStockLastRefilled(LocalDateTime.now());
+        product.setTotalStockOverLifeTime(productDTO.getCurrentStock());
 
         Product savedProduct = productRepository.save(product);
         return modelMapper.map(savedProduct, ProductDTO.class);

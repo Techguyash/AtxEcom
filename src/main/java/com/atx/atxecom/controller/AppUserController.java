@@ -1,9 +1,15 @@
 package com.atx.atxecom.controller;
 
-import com.atx.atxecom.dto.CreateAppUserDto;
+import com.atx.atxecom.apiResponse.APIResponse;
+import com.atx.atxecom.dto.appUsers.AppOtpDTO;
+import com.atx.atxecom.dto.appUsers.CreateAppUserDto;
 import com.atx.atxecom.entity.AppUser;
+import com.atx.atxecom.entity.AppUserDTO;
+import com.atx.atxecom.services.AppOtpService;
 import com.atx.atxecom.services.AppUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,21 +25,52 @@ import java.util.List;
 public class AppUserController
 {
     private final AppUserService appUserService;
+    private final AppOtpService appOtpService;
 
     @PostMapping
-    public AppUser addUser(@RequestBody CreateAppUserDto appUser)
+    public ResponseEntity<APIResponse> addUser(@RequestBody AppUser appUser)
     {
-        return appUserService.createAppUser(appUser);
+        CreateAppUserDto responseData = appUserService.createAppUser(appUser);
+        APIResponse apiResponse = new APIResponse(responseData);
+        return  ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/{id}")
-    public AppUser getUsers(@PathVariable long id){
-        return appUserService.getUserById(id);
+    public ResponseEntity<APIResponse> getUsers(@PathVariable long id){
+        AppUserDTO userById = appUserService.getUserById(id);
+        APIResponse apiResponse = new APIResponse(userById);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping
-    public List<AppUser> getAllUsers()
+    public ResponseEntity<APIResponse> getAllUsers()
     {
-        return appUserService.getAllUsers();
+        List<AppUserDTO> allUsers = appUserService.getAllUsers();
+        APIResponse apiResponse = new APIResponse(allUsers);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @Operation(
+            summary = "Verify OTP for User",
+            description = "Verifies the OTP entered by the user and returns the validation status."
+    )
+    @PostMapping("/{userId}/{inputOtp}")
+    public ResponseEntity<APIResponse> verifyUser(@PathVariable long userId,@PathVariable String inputOtp)
+    {
+        String response = appOtpService.verifyOtp(userId, inputOtp);
+        APIResponse apiResponse = new APIResponse(response);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @Operation(
+            summary = "Generate OTP for User",
+            description = "Generate the OTP entered by the user and returns the new OTP"
+    )
+    @PostMapping("/{userId}")
+    public ResponseEntity<APIResponse> generateNewOtp(@PathVariable long userId)
+    {
+        AppOtpDTO generatedOtp = appOtpService.generateOtp(userId, "new user");
+        APIResponse apiResponse = new APIResponse(generatedOtp);
+        return ResponseEntity.ok(apiResponse);
     }
 }

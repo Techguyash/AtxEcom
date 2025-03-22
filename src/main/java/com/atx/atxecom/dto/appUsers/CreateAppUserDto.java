@@ -1,14 +1,14 @@
-package com.atx.atxecom.dto;
+package com.atx.atxecom.dto.appUsers;
 
 import com.atx.atxecom.entity.AppUser;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * DTO for {@link AppUser}
  */
-@Value
+@Data
 public class CreateAppUserDto implements Serializable
 {
     long userId;
@@ -17,6 +17,7 @@ public class CreateAppUserDto implements Serializable
     String email;
     String passwordHash;
     String phoneNo;
+    String otp;
     boolean isActive;
     boolean isMailVerified;
     boolean isPhoneVerified;

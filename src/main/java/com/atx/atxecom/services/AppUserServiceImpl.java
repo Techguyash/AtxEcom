@@ -1,13 +1,17 @@
 package com.atx.atxecom.services;
 
-import com.atx.atxecom.dto.CreateAppUserDto;
+import com.atx.atxecom.dto.appUsers.CreateAppUserDto;
+import com.atx.atxecom.dto.appUsers.AppOtpDTO;
 import com.atx.atxecom.entity.AppUser;
+import com.atx.atxecom.entity.AppUserDTO;
 import com.atx.atxecom.repository.AppUserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author ashiq
@@ -20,9 +24,10 @@ public class AppUserServiceImpl implements AppUserService
 {
     private final AppUserRepo appUserRepo;
     private final ModelMapper modelMapper;
+    private final AppOtpService appOtpService;
 
     @Override
-    public AppUser createAppUser(CreateAppUserDto appUser)
+    public CreateAppUserDto createAppUser(AppUser appUser)
     {
         AppUser availableUser = appUserRepo.findByEmail(appUser.getEmail());
         if(availableUser != null)
@@ -30,12 +35,18 @@ public class AppUserServiceImpl implements AppUserService
             throw new RuntimeException("User already exists");
         }
         AppUser mappedUser = modelMapper.map(appUser, AppUser.class);
-
-        return appUserRepo.save(mappedUser);
+        mappedUser.setCreatedDate(LocalDateTime.now());
+        AppUser savedUser = appUserRepo.save(mappedUser);
+        AppOtpDTO generatedOtp = appOtpService.generateOtp(savedUser.getUserId(), "new user email");
+        CreateAppUserDto responseEntity = modelMapper.map(savedUser, CreateAppUserDto.class);
+        responseEntity.setOtp(generatedOtp.getOtpCode());
+        return responseEntity;
     }
 
+
+
     @Override
-    public AppUser updateUser(AppUser appUser)
+    public AppUserDTO updateUser(AppUser appUser)
     {
         AppUser availableUser = appUserRepo.findByEmail(appUser.getEmail());
         if(availableUser != null)
@@ -43,25 +54,31 @@ public class AppUserServiceImpl implements AppUserService
             throw new RuntimeException("User already exists");
         }
         modelMapper.map(availableUser,appUser);
-        return appUserRepo.save(availableUser);
+        AppUser savedUser = appUserRepo.save(availableUser);
+        return  modelMapper.map(savedUser, AppUserDTO.class);
     }
 
     @Override
-    public AppUser getUserById(Long id)
+    public AppUserDTO getUserById(Long id)
     {
-        return appUserRepo.findByUserId(id);
+        AppUser savedUser = appUserRepo.findByUserId(id);
+        return modelMapper.map(savedUser, AppUserDTO.class);
     }
 
     @Override
-    public AppUser getUserByEmail(String email)
+    public AppUserDTO getUserByEmail(String email)
     {
-        return appUserRepo.findByEmail(email);
+        AppUser byEmail = appUserRepo.findByEmail(email);
+        return modelMapper.map(byEmail, AppUserDTO.class);
     }
 
     @Override
-    public List<AppUser> getAllUsers()
+    public List<AppUserDTO> getAllUsers()
     {
-        return appUserRepo.findAll();
+        List<AppUser> allUsers = appUserRepo.findAll();
+        List<AppUserDTO> mappedUserDto = allUsers.stream().map(appUser -> modelMapper.map(appUser, AppUserDTO.class)).collect(
+                Collectors.toList());
+        return mappedUserDto;
     }
 
 
