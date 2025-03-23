@@ -1,6 +1,5 @@
 package com.atx.atxecom.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +14,7 @@ import java.util.Set;
  **/
 @Entity
 @Data
+@Inheritance(strategy = InheritanceType.JOINED)
 public class AppUser
 {
     @Id

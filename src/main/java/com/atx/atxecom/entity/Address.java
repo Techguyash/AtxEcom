@@ -10,6 +10,7 @@ import lombok.Data;
  **/
 @Data
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Address
 {
     @Id

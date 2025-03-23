@@ -3,6 +3,7 @@ package com.atx.atxecom.services;
 import com.atx.atxecom.dto.appUsers.CreateUserReqDTO;
 import com.atx.atxecom.dto.appUsers.AppUserResDTO;
 import com.atx.atxecom.dto.appUsers.CreateUserResDTO;
+import com.atx.atxecom.dto.appUsers.LoginReqDto;
 import com.atx.atxecom.entity.AppUser;
 
 import java.util.List;
@@ -23,5 +24,8 @@ public interface AppUserService
     AppUserResDTO getUserByEmail(String email);
 
     List<AppUserResDTO> getAllUsers();
+
+    public String loginUser(LoginReqDto loginReqDto);
+
 
 }

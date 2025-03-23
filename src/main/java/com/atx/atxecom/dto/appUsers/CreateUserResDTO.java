@@ -14,6 +14,5 @@ public class CreateUserResDTO
     String lastName;
     String email;
     String otp;
-    String password;
     String phoneNo;
 }

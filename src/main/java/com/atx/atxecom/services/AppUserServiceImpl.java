@@ -1,14 +1,14 @@
 package com.atx.atxecom.services;
 
 
-import com.atx.atxecom.dto.appUsers.AppOtpDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserReqDTO;
-import com.atx.atxecom.dto.appUsers.AppUserResDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserResDTO;
+import com.atx.atxecom.dto.appUsers.*;
 import com.atx.atxecom.entity.AppUser;
 import com.atx.atxecom.repository.AppUserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +28,8 @@ public class AppUserServiceImpl implements AppUserService
     private final AppUserRepo appUserRepo;
     private final ModelMapper modelMapper;
     private final AppOtpService appOtpService;
+    private final JwtService jwtService;
+    private final AuthenticationManager authManager;
 
 
 
@@ -51,8 +53,6 @@ public class AppUserServiceImpl implements AppUserService
         responseEntity.setOtp(generatedOtp.getOtpCode());
         return responseEntity;
     }
-
-
 
     @Override
     public AppUserResDTO updateUser(AppUser appUser)
@@ -88,6 +88,18 @@ public class AppUserServiceImpl implements AppUserService
         List<AppUserResDTO> mappedUserDto = allUsers.stream().map(appUser -> modelMapper.map(appUser, AppUserResDTO.class)).collect(
                 Collectors.toList());
         return mappedUserDto;
+    }
+
+    @Override
+    public String loginUser(LoginReqDto loginReqDto)
+    {
+        Authentication authObject = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginReqDto.getEmail(), loginReqDto.getPassword()));
+        if(authObject.isAuthenticated())
+        {
+        return jwtService.generateJwtToken(loginReqDto.getEmail());
+        }
+        return "Not Authenticated";
     }
 
 

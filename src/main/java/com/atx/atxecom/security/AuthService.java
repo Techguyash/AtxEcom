@@ -1,7 +1,6 @@
-package com.atx.atxecom.services;
+package com.atx.atxecom.security;
 
 import com.atx.atxecom.entity.AppUser;
-import com.atx.atxecom.model.PrincipalUser;
 import com.atx.atxecom.repository.AppUserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 @AllArgsConstructor
-public class AppUserDetailsService implements UserDetailsService
+public class AuthService implements UserDetailsService
 {
     private final AppUserRepo appUserRepo;
 
