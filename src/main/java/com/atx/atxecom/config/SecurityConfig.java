@@ -38,7 +38,7 @@ public class SecurityConfig
                 http.csrf(csrf->csrf.disable())
                 .formLogin(formLogin->formLogin.disable())
                 .authorizeHttpRequests(request->
-                        request.requestMatchers("/auth/**").permitAll()
+                        request.requestMatchers("/auth/**","/test/**").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

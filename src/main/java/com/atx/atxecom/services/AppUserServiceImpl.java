@@ -34,7 +34,7 @@ public class AppUserServiceImpl implements AppUserService
 
 
     @Override
-    public CreateUserResDTO createAppUser(CreateUserReqDTO userReqDto)
+    public AppUserResDTO createAppUser(CreateUserReqDTO userReqDto)
     {
         BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
         AppUser availableUser = appUserRepo.findByEmail(userReqDto.getEmail());
@@ -49,7 +49,7 @@ public class AppUserServiceImpl implements AppUserService
         mappedUser.setCreatedDate(LocalDateTime.now());
         AppUser savedUser = appUserRepo.save(mappedUser);
         AppOtpDTO generatedOtp = appOtpService.generateOtp(savedUser.getUserId(), "new user email");
-        CreateUserResDTO responseEntity = modelMapper.map(savedUser, CreateUserResDTO.class);
+        AppUserResDTO responseEntity = modelMapper.map(savedUser, AppUserResDTO.class);
         responseEntity.setOtp(generatedOtp.getOtpCode());
         return responseEntity;
     }

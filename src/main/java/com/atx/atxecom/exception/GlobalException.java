@@ -43,6 +43,7 @@ public class GlobalException extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request)
@@ -52,7 +53,7 @@ public class GlobalException extends ResponseEntityExceptionHandler
         response.setError(Boolean.TRUE);
         Map<String, String> errorBody = new HashMap<>();
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        for (FieldError error : fieldErrors)
+        for(FieldError error : fieldErrors)
         {
             errorBody.put(error.getField(), error.getDefaultMessage());
         }

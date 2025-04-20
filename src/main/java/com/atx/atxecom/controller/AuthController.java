@@ -2,15 +2,14 @@ package com.atx.atxecom.controller;
 
 import com.atx.atxecom.apiResponse.APIResponse;
 import com.atx.atxecom.dto.appUsers.AppOtpDTO;
+import com.atx.atxecom.dto.appUsers.AppUserResDTO;
 import com.atx.atxecom.dto.appUsers.CreateUserReqDTO;
-import com.atx.atxecom.dto.appUsers.CreateUserResDTO;
 import com.atx.atxecom.dto.appUsers.LoginReqDto;
 import com.atx.atxecom.services.AppOtpService;
 import com.atx.atxecom.services.AppUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -51,7 +50,7 @@ public class AuthController
     @RequestMapping("/register")
     public ResponseEntity<APIResponse> registerUser(@RequestBody CreateUserReqDTO appUser)
     {
-        CreateUserResDTO responseData = appUserService.createAppUser(appUser);
+        AppUserResDTO responseData = appUserService.createAppUser(appUser);
         APIResponse apiResponse = new APIResponse(responseData);
         return  ResponseEntity.ok(apiResponse);
     }
