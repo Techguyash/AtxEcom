@@ -15,12 +15,21 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaTopicConfig
 {
     @Value("${spring.kafka.email.topic.name}")
-    private String topicName;
+    private String emailTopic;
+
+    @Value("${spring.kafka.sms.topic.name}")
+    private String smsTopic;
 
     @Bean
-    public NewTopic topic()
+    public NewTopic emailTopic()
     {
-        return TopicBuilder.name(topicName).build();
+        return TopicBuilder.name(emailTopic).build();
+    }
+
+    @Bean
+    public NewTopic smsTopic()
+    {
+        return TopicBuilder.name(smsTopic).build();
     }
 
 }

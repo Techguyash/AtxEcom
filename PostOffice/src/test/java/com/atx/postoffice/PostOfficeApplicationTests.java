@@ -1,10 +1,10 @@
-package com.atx.notification.services;
+package com.atx.postoffice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NotificationServiceApplicationTests
+class PostOfficeApplicationTests
 {
 
     @Test

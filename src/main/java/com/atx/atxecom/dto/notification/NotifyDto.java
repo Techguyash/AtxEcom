@@ -1,23 +1,24 @@
-package com.atx.atxecom.dto;
+package com.atx.atxecom.dto.notification;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * @author ashiq
- * @createdOn 20/04/25 12:44 pm
+ * @createdOn 20/04/25 7:57 pm
  * @project AtxEcom
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailNotificationDto
+@Builder
+public class NotifyDto
 {
-    private String email;
+    private String to;
     private String subject;
     private String body;
     private String status;
-
-
+    private NotificationType notifyType; // sms or mail
 }

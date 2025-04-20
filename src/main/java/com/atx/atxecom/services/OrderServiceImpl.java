@@ -6,6 +6,7 @@ import com.atx.atxecom.entity.*;
 import com.atx.atxecom.exception.DataMismatchException;
 import com.atx.atxecom.exception.NoDataFoundException;
 import com.atx.atxecom.repository.*;
+import com.atx.atxecom.services.kafka.PostMan;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,7 @@ public class OrderServiceImpl implements OrderService
     private final AddressRepo addressRepo;
     private final ProductRepo productRepo;
     private final OrderItemsRepo orderItemsRepo;
+    private final PostMan emailSender;
 
 
     @Override
@@ -69,6 +71,8 @@ public class OrderServiceImpl implements OrderService
             orderItem.setTotalPrice(itemsDto.quantity() * itemsDto.unitPrice());
             orderItemsRepo.save(orderItem);
         }
+
+
         return modelMapper.map(ordersDTO, OrdersDTO.class);
 
     }

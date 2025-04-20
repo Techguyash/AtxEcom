@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.atx</groupId>
-    <artifactId>NotificationService</artifactId>
+    <artifactId>PostOffice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>NotificationService</name>
-    <description>NotificationService</description>
+    <name>PostOffice</name>
+    <description>PostOffice</description>
     <url/>
     <licenses>
         <license/>
@@ -65,7 +65,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
