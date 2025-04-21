@@ -1,4 +1,4 @@
-package com.atx.atxecom.apiResponse;
+package com.techguy.orderservice.apiResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

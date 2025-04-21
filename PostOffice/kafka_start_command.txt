@@ -1,0 +1,26 @@
+--Start ZooKeeper---
+
+sudo ./bin/zookeeper-server-start.sh ./config/zookeeper.properties
+
+-- start kafka--
+
+sudo ./bin/kafka-server-start.sh ./config/server.properties
+
+--create new topic --
+
+./bin/kafka-topics.sh --create --topic email-queue --bootstrap-server localhost:9092
+
+--to insert event in the topic --
+
+./bin/kafka-console-producer.sh --topic email-queue --bootstrap-server localhost:9092
+
+--to read events from the kafka topic --
+
+./bin/kafka-console-consumer.sh --topic email-queue --from-beginning --bootstrap-server localhost:9092
+
+--delete a topic
+./bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic email-queue
+
+--list all topics
+.bin/kafka-topics.sh --bootstrap-server localhost:9092 --list 
+

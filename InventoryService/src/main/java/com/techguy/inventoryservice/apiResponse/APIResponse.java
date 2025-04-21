@@ -1,6 +1,8 @@
-package com.atx.atxecom.apiResponse;
+package com.techguy.inventoryservice.apiResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 

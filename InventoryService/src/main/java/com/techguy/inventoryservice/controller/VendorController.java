@@ -1,8 +1,9 @@
-package com.atx.atxecom.controller;
+package com.techguy.inventoryservice.controller;
 
-import com.atx.atxecom.apiResponse.APIResponse;
-import com.atx.atxecom.dto.VendorDTO;
-import com.atx.atxecom.services.VendorService;
+
+import com.techguy.inventoryservice.apiResponse.APIResponse;
+import com.techguy.inventoryservice.dto.VendorDTO;
+import com.techguy.inventoryservice.services.VendorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
