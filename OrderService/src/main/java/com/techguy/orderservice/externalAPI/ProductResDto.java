@@ -1,10 +1,11 @@
-package com.techguy.inventoryservice.dto;
+package com.techguy.orderservice.externalAPI;
 
 import lombok.Data;
 
 @Data
-public class ProductReqDto
+public class ProductResDto
 {
+    private Long productId;
     private String name;
     private String description;
     private Long categoryId;

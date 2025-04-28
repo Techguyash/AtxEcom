@@ -1,7 +1,8 @@
 package com.techguy.inventoryservice.services;
 
 
-import com.techguy.inventoryservice.dto.VendorDTO;
+import com.techguy.inventoryservice.dto.VendorReqDto;
+import com.techguy.inventoryservice.dto.VendorResDto;
 import com.techguy.inventoryservice.entity.Vendor;
 import com.techguy.inventoryservice.exception.NoDataFoundException;
 import com.techguy.inventoryservice.repository.VendorRepo;
@@ -27,21 +28,21 @@ public class VendorServiceImpl implements VendorService
     private ModelMapper modelMapper;
 
     @Override
-    public VendorDTO addVendor(VendorDTO vendorDTO)
+    public VendorResDto addVendor(VendorReqDto vendorDTO)
     {
         Vendor mappedVendor = modelMapper.map(vendorDTO, Vendor.class);
         Vendor savedEntity = vendorRepo.save(mappedVendor);
-        return modelMapper.map(savedEntity, VendorDTO.class);
+        return modelMapper.map(savedEntity, VendorResDto.class);
     }
 
     @Override
-    public VendorDTO updateVendor(VendorDTO vendorDTO)
+    public VendorResDto updateVendor(Long id,VendorReqDto vendorDTO)
     {
-        Vendor existingVendor = vendorRepo.findById(vendorDTO.getVendorId()).orElseThrow(
-                () -> new NoDataFoundException("Vendor with id" + vendorDTO.getVendorId() + " not found"));
+        Vendor existingVendor = vendorRepo.findById(id).orElseThrow(
+                () -> new NoDataFoundException("Vendor with id" + id + " not found"));
          modelMapper.map(vendorDTO, existingVendor);
         Vendor savedEntity = vendorRepo.save(existingVendor);
-        return modelMapper.map(savedEntity, VendorDTO.class);
+        return modelMapper.map(savedEntity, VendorResDto.class);
     }
 
     @Override
@@ -52,15 +53,15 @@ public class VendorServiceImpl implements VendorService
     }
 
     @Override
-    public VendorDTO getVendorById(long id)
+    public VendorResDto getVendorById(long id)
     {
-        return vendorRepo.findById(id).map((element) -> modelMapper.map(element, VendorDTO.class)).get();
+        return vendorRepo.findById(id).map((element) -> modelMapper.map(element, VendorResDto.class)).get();
     }
 
     @Override
-    public List<VendorDTO> getVendors()
+    public List<VendorResDto> getVendors()
     {
-        return vendorRepo.findAll().stream().map((element) -> modelMapper.map(element, VendorDTO.class)).collect(
+        return vendorRepo.findAll().stream().map((element) -> modelMapper.map(element, VendorResDto.class)).collect(
                 Collectors.toList());
     }
 }

@@ -8,13 +8,10 @@ import lombok.Data;
  * @project AtxEcom
  **/
 @Data
-public class VendorDTO
+public class VendorReqDto
 {
-    private Long vendorId;
     private String vendorName;
     private String vendorAddress;
     private String vendorPhone;
     private String vendorEmail;
-
-
 }

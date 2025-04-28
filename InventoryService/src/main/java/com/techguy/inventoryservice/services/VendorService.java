@@ -1,7 +1,9 @@
 package com.techguy.inventoryservice.services;
 
 
-import com.techguy.inventoryservice.dto.VendorDTO;
+
+import com.techguy.inventoryservice.dto.VendorReqDto;
+import com.techguy.inventoryservice.dto.VendorResDto;
 
 import java.util.List;
 
@@ -12,13 +14,13 @@ import java.util.List;
  **/
 public interface VendorService
 {
-    VendorDTO addVendor(VendorDTO vendorDTO);
+    VendorResDto addVendor(VendorReqDto vendorDTO);
 
-    VendorDTO updateVendor(VendorDTO vendorDTO);
+    VendorResDto updateVendor(Long vendorId,VendorReqDto vendorDTO);
 
     void deleteVendor(long id);
 
-    VendorDTO getVendorById(long id);
+    VendorResDto getVendorById(long id);
 
-    List<VendorDTO> getVendors();
+    List<VendorResDto> getVendors();
 }

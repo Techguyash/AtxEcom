@@ -1,12 +1,15 @@
 package com.techguy.orderservice.apiResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import java.time.LocalDateTime;
 
-public class APIResponse
+public class APIResponse<T>
 {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timestamp;
 
     private Boolean isSuccess = true;
@@ -61,12 +64,12 @@ public class APIResponse
         this.debugMessage = debugMessage;
     }
 
-    public Object getPayload()
+    public T getPayload()
     {
         return payload;
     }
 
-    public void setPayload(Object payload)
+    public void setPayload(T payload)
     {
         this.payload = payload;
     }
@@ -74,9 +77,9 @@ public class APIResponse
     private Boolean isError = false;
     private String errorMessage = null;
     private String debugMessage = null;
-    private Object payload;
+    private T payload;
 
-    public APIResponse(Object data)
+    public APIResponse(T data)
     {
         this();
         this.payload = data;

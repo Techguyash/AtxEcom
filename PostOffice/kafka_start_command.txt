@@ -22,5 +22,11 @@ sudo ./bin/kafka-server-start.sh ./config/server.properties
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic email-queue
 
 --list all topics
-.bin/kafka-topics.sh --bootstrap-server localhost:9092 --list 
+.bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+
+---KAFKA using DOCKER
+
+docker pull apache/kafka:4.0.0
+docker run -p 9092:9092 apache/kafka:4.0.0
 

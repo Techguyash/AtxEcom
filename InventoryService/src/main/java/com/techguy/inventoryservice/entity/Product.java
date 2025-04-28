@@ -34,6 +34,10 @@ public class Product {
     @Schema(description = "Category of the product")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "vendorId",nullable = true)
+    private Vendor vendor;
+
     @Schema(description = "URL of the product image", example = "https://example.com/images/product1.jpg")
     private String imageUrl;
 
@@ -66,6 +70,7 @@ public class Product {
 
     @Schema(description = "Total stock refilled until today", example = "150")
     private double totalStockOverLifeTime;
+
 
 
 }
